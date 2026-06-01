@@ -4,6 +4,7 @@
 ## Notes: Plays an alert when a dispel attempt does not trigger cooldown.
 ## Author: Pinta365@Github
 ## Version: 0.0.1
+## X-Curse-Project-ID: 1561179
 ## SavedVariables: DispelFailedAlertDB
 
 embeds.xml
