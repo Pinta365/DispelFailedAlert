@@ -5,6 +5,7 @@
 ## Author: Pinta365@Github
 ## Version: 0.0.1
 ## X-Curse-Project-ID: 1561179
+## X-Wago-ID: YK9bk8GL
 ## SavedVariables: DispelFailedAlertDB
 
 embeds.xml
