@@ -4,3 +4,4 @@ ignore:
   - .gitignore
   - README.md
   - .pkgmeta
+  - deno.json
