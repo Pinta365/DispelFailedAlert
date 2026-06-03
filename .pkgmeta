@@ -5,3 +5,7 @@ ignore:
   - README.md
   - .pkgmeta
   - deno.json
+externals:
+  libs/LibStub: https://repos.wowace.com/wow/libstub/trunk/LibStub
+  libs/CallbackHandler-1.0: https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+  libs/LibSharedMedia-3.0: https://repos.wowace.com/wow/libsharedmedia-3-0/trunk/LibSharedMedia-3.0
