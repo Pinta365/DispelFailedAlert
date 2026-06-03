@@ -27,20 +27,11 @@ local function checkbox(parent, label, yOffset)
     return cb, yOffset - ROW_CHECK
 end
 
-local function selectSound(key)
-    DispelFailedAlertDB.soundKey = key
+local function selectSound(name)
+    DispelFailedAlertDB.soundName = name
     if AddonTable.PreviewAlertSound then
-        AddonTable.PreviewAlertSound(key)
+        AddonTable.PreviewAlertSound(name)
     end
-end
-
-local function soundLabelForKey(key)
-    for _, sound in ipairs(AddonTable.alertSounds) do
-        if sound.key == key then
-            return sound.label
-        end
-    end
-    return AddonTable.alertSounds[1].label
 end
 
 -- Sound picker: a dropdown, with a cycle-button fallback if the dropdown
@@ -58,11 +49,12 @@ local function createSoundSelector(panel, y)
         dropdown:SetPoint("TOPLEFT", INDENT, y)
         dropdown:SetWidth(220)
         dropdown:SetupMenu(function(_, rootDescription)
-            for _, sound in ipairs(AddonTable.alertSounds) do
-                rootDescription:CreateRadio(sound.label, function()
-                    return DispelFailedAlertDB.soundKey == sound.key
+            rootDescription:SetScrollMode(GetScreenHeight() * 0.5)
+            for _, name in ipairs(AddonTable.GetSoundChoices()) do
+                rootDescription:CreateRadio(name, function()
+                    return AddonTable.GetCurrentSoundName() == name
                 end, function()
-                    selectSound(sound.key)
+                    selectSound(name)
                 end)
             end
         end)
@@ -74,17 +66,17 @@ local function createSoundSelector(panel, y)
     cycleBtn:SetSize(220, 22)
     cycleBtn:SetPoint("TOPLEFT", INDENT, y)
     cycleBtn:SetScript("OnClick", function(self)
-        local sounds = AddonTable.alertSounds
+        local names = AddonTable.GetSoundChoices()
         local idx = 1
-        for i, sound in ipairs(sounds) do
-            if sound.key == DispelFailedAlertDB.soundKey then
+        for i, name in ipairs(names) do
+            if name == AddonTable.GetCurrentSoundName() then
                 idx = i
                 break
             end
         end
-        local nextSound = sounds[(idx % #sounds) + 1]
-        selectSound(nextSound.key)
-        self:SetText("Sound: " .. nextSound.label)
+        local nextName = names[(idx % #names) + 1]
+        selectSound(nextName)
+        self:SetText("Sound: " .. nextName)
     end)
     panel.soundCycleButton = cycleBtn
     return y - 34
@@ -144,7 +136,7 @@ local function initOptionsPanel()
         if panel.soundDropdown and panel.soundDropdown.GenerateMenu then
             panel.soundDropdown:GenerateMenu()
         elseif panel.soundCycleButton then
-            panel.soundCycleButton:SetText("Sound: " .. soundLabelForKey(DispelFailedAlertDB.soundKey))
+            panel.soundCycleButton:SetText("Sound: " .. AddonTable.GetCurrentSoundName())
         end
     end
 

@@ -68,36 +68,35 @@ local function dispelWentOnCooldown(spellID)
     return isActive == true and isOnGCD ~= true
 end
 
--- Find the sound entry for a key, falling back to the first/default entry.
-local function findSound(soundKey)
-    local sounds = AddonTable.alertSounds or {}
-    for _, sound in ipairs(sounds) do
-        if sound.key == soundKey then
-            return sound
+-- Resolve a sound name to something PlaySoundFile accepts (a file path or a
+-- numeric fileDataID). Tries LSM first, then the bundled list, then the default.
+local function resolveSoundFile(soundName)
+    local LSM = AddonTable.LSM
+    if LSM and soundName then
+        local file = LSM:Fetch(AddonTable.SOUND_MEDIATYPE, soundName, true)
+        if file then
+            return file
         end
     end
-    return sounds[1]
+
+    for _, sound in ipairs(AddonTable.bundledSounds or {}) do
+        if sound.name == soundName then
+            return sound.file
+        end
+    end
+
+    local fallback = AddonTable.bundledSounds and AddonTable.bundledSounds[1]
+    return fallback and fallback.file
 end
 
--- Plays the configured (or given) alert sound, file- or kit-based.
--- Returns whether audio actually played.
-function AddonTable.PreviewAlertSound(soundKey)
-    soundKey = soundKey or (DispelFailedAlertDB and DispelFailedAlertDB.soundKey)
-    local sound = findSound(soundKey)
-    if not sound then
+-- Plays the configured (or given) alert sound. Returns whether audio played.
+function AddonTable.PreviewAlertSound(soundName)
+    soundName = soundName or (DispelFailedAlertDB and DispelFailedAlertDB.soundName)
+    local file = resolveSoundFile(soundName)
+    if not file then
         return false
     end
-
-    if sound.file then
-        local willPlay = PlaySoundFile(sound.file, "Master")
-        return willPlay ~= false
-    end
-
-    local soundKitID = SOUNDKIT and sound.soundKit and SOUNDKIT[sound.soundKit]
-    if not soundKitID then
-        return false
-    end
-    local willPlay = PlaySound(soundKitID, "Master")
+    local willPlay = PlaySoundFile(file, "Master")
     return willPlay ~= false
 end
 
@@ -106,7 +105,7 @@ local function playDispelFailedAlert(spellID)
         return
     end
 
-    AddonTable.PreviewAlertSound(DispelFailedAlertDB.soundKey)
+    AddonTable.PreviewAlertSound(DispelFailedAlertDB.soundName)
 
     AddonTable.Debug("Dispel did nothing (no cooldown); alerting:", getSpellName(spellID))
 end

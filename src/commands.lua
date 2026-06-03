@@ -40,18 +40,19 @@ function AddonTable.initCommands()
             DispelFailedAlertDB.alertsEnabled = false
             print("|cff45D388[DispelFailedAlert]|r Alert sound |cffFF4444OFF|r")
         elseif cmd == "sound" then
-            local sounds = AddonTable.alertSounds or {}
+            local names = AddonTable.GetSoundChoices()
             local index = tonumber(rest)
-            if index and sounds[index] then
-                DispelFailedAlertDB.soundKey = sounds[index].key
-                local played = AddonTable.PreviewAlertSound and AddonTable.PreviewAlertSound(sounds[index].key)
+            if index and names[index] then
+                DispelFailedAlertDB.soundName = names[index]
+                local played = AddonTable.PreviewAlertSound and AddonTable.PreviewAlertSound(names[index])
                 local note = played and "" or " |cffFF4444(no audio)|r"
-                print("|cff45D388[DispelFailedAlert]|r Sound set to |cffFFFFFF" .. sounds[index].label .. "|r" .. note)
+                print("|cff45D388[DispelFailedAlert]|r Sound set to |cffFFFFFF" .. names[index] .. "|r" .. note)
             else
+                local current = AddonTable.GetCurrentSoundName()
                 print("|cff45D388[DispelFailedAlert]|r Sounds (|cffFFFFFF/dfa sound <number>|r):")
-                for i, sound in ipairs(sounds) do
-                    local marker = (sound.key == DispelFailedAlertDB.soundKey) and " |cff00FF00(current)|r" or ""
-                    print(string.format("  |cffFFFFFF%d|r - %s%s", i, sound.label, marker))
+                for i, name in ipairs(names) do
+                    local marker = (name == current) and " |cff00FF00(current)|r" or ""
+                    print(string.format("  |cffFFFFFF%d|r - %s%s", i, name, marker))
                 end
             end
         elseif cmd == "test" then
