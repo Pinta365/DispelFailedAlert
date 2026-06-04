@@ -4,6 +4,8 @@ Plays a sound when you cast a friendly dispel/cleanse but it removes nothing —
 
 It tracks the friendly cleanses across all classes (Cleanse, Purify, Nature's Cure, Detox, Purify Spirit, Cleanse Spirit, Expunge/Naturalize, Remove Curse, and more) and only reacts to your own casts.
 
+![Image of the options panel](https://cdn.pinta.land/dfa/dfa.png)
+
 ## Download
 
 * [Wago Addons](https://addons.wago.io/addons/dispelfailedalert)
