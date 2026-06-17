@@ -3,7 +3,7 @@
 ## Title: |cff45D388Dispel Failed Alert|r
 ## Notes: Plays an alert when a dispel attempt does not trigger cooldown.
 ## Author: Pinta365@Github
-## Version: 0.1.0
+## Version: 0.1.1
 ## X-Curse-Project-ID: 1561179
 ## X-Wago-ID: YK9bk8GL
 ## SavedVariables: DispelFailedAlertDB
