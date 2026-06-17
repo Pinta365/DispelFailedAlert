@@ -30,6 +30,7 @@ AddonTable.defaultSettings = {
     debug = false,
     alertsEnabled = true,
     soundName = AddonTable.defaultSound,
+    showWelcome = true,
 }
 
 -- The selectable sound names: every sound registered with LSM, or just the

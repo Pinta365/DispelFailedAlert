@@ -23,6 +23,7 @@ function AddonTable.initCommands()
         print(c, "|cffFFFFFF/dfa on|r - enable failed dispel alert")
         print(c, "|cffFFFFFF/dfa off|r - disable failed dispel alert")
         print(c, "|cffFFFFFF/dfa sound|r - list/select the alert sound")
+        print(c, "|cffFFFFFF/dfa welcome|r - toggle the login message")
         print(c, "|cffFFFFFF/dfa test|r - play test alert sound")
         print(c, "|cffFFFFFF/dfa reset|r - reset settings to defaults")
     end
@@ -55,6 +56,9 @@ function AddonTable.initCommands()
                     print(string.format("  |cffFFFFFF%d|r - %s%s", i, name, marker))
                 end
             end
+        elseif cmd == "welcome" then
+            DispelFailedAlertDB.showWelcome = not DispelFailedAlertDB.showWelcome
+            print("|cff45D388[DispelFailedAlert]|r Login message", DispelFailedAlertDB.showWelcome and "|cff00FF00ON|r" or "|cffFF4444OFF|r")
         elseif cmd == "test" then
             if AddonTable.TestAlert then
                 AddonTable.TestAlert()

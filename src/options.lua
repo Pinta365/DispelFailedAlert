@@ -106,6 +106,12 @@ local function initOptionsPanel()
         DispelFailedAlertDB.alertsEnabled = self:GetChecked()
     end)
 
+    local welcomeCb
+    welcomeCb, y = checkbox(panel, "Show welcome message on login", y)
+    welcomeCb:SetScript("OnClick", function(self)
+        DispelFailedAlertDB.showWelcome = self:GetChecked()
+    end)
+
     y = sectionHeader(panel, "Alert Sound", y - SECTION_GAP)
     y = createSoundSelector(panel, y)
     y = y - SECTION_GAP
@@ -133,6 +139,7 @@ local function initOptionsPanel()
     local function RefreshOptions()
         debugCb:SetChecked(DispelFailedAlertDB.debug == true)
         alertsCb:SetChecked(DispelFailedAlertDB.alertsEnabled ~= false)
+        welcomeCb:SetChecked(DispelFailedAlertDB.showWelcome ~= false)
         if panel.soundDropdown and panel.soundDropdown.GenerateMenu then
             panel.soundDropdown:GenerateMenu()
         elseif panel.soundCycleButton then

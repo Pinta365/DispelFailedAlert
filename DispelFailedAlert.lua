@@ -6,7 +6,9 @@ local function onEvent(self, event, ...)
         AddonTable.initAlerts()
         AddonTable.initOptionsPanel()
         AddonTable.initCommands()
-        print("|cff45D388[DispelFailedAlert]|r v" .. AddonTable.version .. " loaded. Type |cffFFFFFF/dfa|r for commands.")
+        if DispelFailedAlertDB.showWelcome ~= false then
+            print("|cff45D388[DispelFailedAlert]|r v" .. AddonTable.version .. " loaded. Type |cffFFFFFF/dfa|r for commands.")
+        end
     end
 end
 
